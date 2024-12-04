@@ -27,7 +27,7 @@ function extractLargeMessageValue(dataToParse: string): string | undefined {
  * @param dataToParse
  * @returns
  */
-export const parseTypedDataMessage = (dataToParse: string) => {
+const parseTypedDataMessage = (dataToParse: string) => {
   const result = JSON.parse(dataToParse);
 
   const messageValue = extractLargeMessageValue(dataToParse);
