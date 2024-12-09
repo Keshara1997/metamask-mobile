@@ -16,7 +16,7 @@ import TokenOverview from '../../pages/wallet/TokenOverview';
 import Matchers from '../../utils/Matchers';
 import Gestures from '../../utils/Gestures';
 import NetworkEducationModal from '../../pages/Network/NetworkEducationModal';
-import { CustomNetworks } from '../../resources/networks.e2e';
+import TokenOverview from '../../pages/wallet/TokenOverview';
 
 const fixtureServer = new FixtureServer();
 
@@ -97,8 +97,29 @@ describe(SmokeMultiChain('Import Tokens'), () => {
     );
     await NetworkEducationModal.tapGotItButton();
   });
+
+  it('should allows clicking into the asset details page of native token on another network', async () => {
+    await WalletView.tapTokenNetworkFilter();
+    await WalletView.tapTokenNetworkFilterAll();
+    await WalletView.tapOnToken('AVAX');
+
+    await Assertions.checkIfVisible(TokenOverview.container);
+    await TokenOverview.tapChartPeriod1d();
+    await Assertions.checkIfVisible(TokenOverview.chartPeriod1d);
+    await TokenOverview.tapChartPeriod1w();
+    await Assertions.checkIfVisible(TokenOverview.chartPeriod1w);
+    await TokenOverview.tapChartPeriod1m();
+    await Assertions.checkIfVisible(TokenOverview.chartPeriod1m);
+    await TokenOverview.tapChartPeriod3m();
+    await Assertions.checkIfVisible(TokenOverview.chartPeriod3m);
+    await TokenOverview.tapChartPeriod1y();
+    await Assertions.checkIfVisible(TokenOverview.chartPeriod1y);
+    await TokenOverview.tapChartPeriod3y();
+    await Assertions.checkIfVisible(TokenOverview.chartPeriod3y);
+
+    await TokenOverview.scrollOnScreen();
+    await Assertions.checkIfVisible(TokenOverview.receiveButton);
+    await Assertions.checkIfVisible(TokenOverview.sendButton);
+    await Assertions.checkIfVisible(TokenOverview.swapButton);
+  });
 });
-
-// TODO:
-
-// 'allows clicking into the asset details page of native token on another network'
