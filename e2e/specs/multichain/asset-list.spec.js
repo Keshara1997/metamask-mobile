@@ -12,6 +12,11 @@ import FixtureServer from '../../fixtures/fixture-server';
 import { getFixturesServerPort } from '../../fixtures/utils';
 import { loginToApp } from '../../viewHelper';
 import Assertions from '../../utils/Assertions';
+import TokenOverview from '../../pages/wallet/TokenOverview';
+import Matchers from '../../utils/Matchers';
+import Gestures from '../../utils/Gestures';
+import NetworkEducationModal from '../../pages/Network/NetworkEducationModal';
+import { CustomNetworks } from '../../resources/networks.e2e';
 
 const fixtureServer = new FixtureServer();
 
@@ -53,12 +58,47 @@ describe(SmokeMultiChain('Import Tokens'), () => {
     await Assertions.checkIfNotVisible(avax);
     await Assertions.checkIfNotVisible(bnb);
   });
+
+  it('should switch networks when clicking on swap if an asset on a different network is selected', async () => {
+    const BNB_NAME = 'BNB Smart Chain';
+    await WalletView.tapTokenNetworkFilter();
+    await WalletView.tapTokenNetworkFilterAll();
+    const bnb = WalletView.tokenInWallet('BNB');
+    await Assertions.checkIfVisible(bnb);
+    await WalletView.tapOnToken('BNB');
+    await Assertions.checkIfVisible(TokenOverview.swapButton);
+    await TokenOverview.tapSwapButton();
+
+    await Assertions.checkIfVisible(NetworkEducationModal.container);
+    await Assertions.checkIfElementToHaveText(
+      NetworkEducationModal.networkName,
+      BNB_NAME,
+    );
+    await NetworkEducationModal.tapGotItButton();
+
+    const cancelButton = await Matchers.getElementByText('Cancel');
+    await Gestures.waitAndTap(cancelButton);
+  });
+
+  it('should switch networks when clicking on send if an asset on a different network is selected', async () => {
+    const ETHEREUM_NAME = 'Ethereum Main Network';
+    await WalletView.tapTokenNetworkFilter();
+    await WalletView.tapTokenNetworkFilterAll();
+    const ethereum = WalletView.tokenInWallet('Ethereum');
+    await Assertions.checkIfVisible(ethereum);
+    await WalletView.tapOnToken();
+    await Assertions.checkIfVisible(TokenOverview.sendButton);
+    await TokenOverview.tapSendButton();
+
+    await Assertions.checkIfVisible(NetworkEducationModal.container);
+    await Assertions.checkIfElementToHaveText(
+      NetworkEducationModal.networkName,
+      ETHEREUM_NAME,
+    );
+    await NetworkEducationModal.tapGotItButton();
+  });
 });
 
 // TODO:
 
 // 'allows clicking into the asset details page of native token on another network'
-
-// 'switches networks when clicking on send for a token on another network'
-
-// 'switches networks when clicking on swap for a token on another network'
