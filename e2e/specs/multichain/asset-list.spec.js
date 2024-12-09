@@ -16,7 +16,6 @@ import TokenOverview from '../../pages/wallet/TokenOverview';
 import Matchers from '../../utils/Matchers';
 import Gestures from '../../utils/Gestures';
 import NetworkEducationModal from '../../pages/Network/NetworkEducationModal';
-import TokenOverview from '../../pages/wallet/TokenOverview';
 
 const fixtureServer = new FixtureServer();
 
