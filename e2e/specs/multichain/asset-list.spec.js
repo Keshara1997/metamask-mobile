@@ -22,7 +22,11 @@ const fixtureServer = new FixtureServer();
 
 describe(SmokeMultiChain('Import Tokens'), () => {
   beforeAll(async () => {
-    const fixture = new FixtureBuilder().withPopularNetworks().build();
+    const fixture = new FixtureBuilder({
+      onboarding: false,
+    })
+      .withPopularNetworks()
+      .build();
     await startFixtureServer(fixtureServer);
     await loadFixture(fixtureServer, { fixture });
     await TestHelpers.launchApp({
