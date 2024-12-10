@@ -16,6 +16,7 @@ import TokenOverview from '../../pages/wallet/TokenOverview';
 import Matchers from '../../utils/Matchers';
 import Gestures from '../../utils/Gestures';
 import NetworkEducationModal from '../../pages/Network/NetworkEducationModal';
+import TestHelpers from '../../helpers';
 
 const fixtureServer = new FixtureServer();
 
@@ -24,7 +25,7 @@ describe(SmokeMultiChain('Import Tokens'), () => {
     const fixture = new FixtureBuilder().withPopularNetworks().build();
     await startFixtureServer(fixtureServer);
     await loadFixture(fixtureServer, { fixture });
-    await device.launchApp({
+    await TestHelpers.launchApp({
       launchArgs: { fixtureServerPort: `${getFixturesServerPort()}` },
     });
     await loginToApp();
